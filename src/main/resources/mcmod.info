@@ -1,0 +1,16 @@
+[
+{
+  "modid": "knoothing",
+  "name": "Knoothing",
+  "description": "A lib for Groophite.",
+  "version": "1.0",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Draming"],
+  "credits": "",
+  "logoFile": "assets/knoothing/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

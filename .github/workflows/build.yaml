@@ -1,0 +1,32 @@
+name: Build Mod
+on: [push]
+jobs:
+  Build-Mod:
+    runs-on: windows-2019
+    #runs-on: ubuntu-latest
+    steps:
+
+      - run: |
+          mkdir ~/buildMod
+          cd ~/buildMod
+          git clone https://github.com/1478599553/knoothing_112.git
+          cd ./knoothing_112
+          ./gradlew.bat build
+          ./CIUtils/7z a ./knoothing-release.zip ./build/libs/
+          ./CIUtils/github-release.exe delete --user 1478599553 --repo knoothing_112 --tag "snapshot_auto_build"
+          ./CIUtils/github-release.exe release --user 1478599553 --repo knoothing_112 --tag "snapshot_auto_build" --name "Snapshot autobuild" --description "Auto built by Github Actions." --pre-release
+          ./CIUtils/github-release.exe upload -u 1478599553 -r knoothing_112 -t "snapshot_auto_build" -f knoothing-release.zip --name knoothing.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      #- name: Upload to release
+      #  uses: JasonEtco/upload-to-release@master
+      #  with:
+      #    args: build/libs/*.jar application/octet-stream
+#  env:
+#    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
